@@ -39,6 +39,7 @@ public class JavaAgentHook {
 
     public static void premain(final String args) throws Exception {
         InternalFrameMonitor.init();
+        final boolean exitOnQuit = Boolean.parseBoolean(System.getProperty("exitOnQuit", "true"));
         final int port;
         if (args != null && args.trim().length() > 0) {
             port = Integer.parseInt(args.trim());
@@ -74,7 +75,7 @@ public class JavaAgentHook {
                                 logger.warning(
                                         "Application is using a non-utf8 charset. Marathon might cause issues while playing");
                             }
-                            JavaServer server = new JavaServer(port, true);
+                            JavaServer server = new JavaServer(port, exitOnQuit);
                             server.start();
                         } catch (IOException e) {
                             e.printStackTrace();
